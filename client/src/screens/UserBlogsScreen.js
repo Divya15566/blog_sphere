@@ -4,9 +4,6 @@ import axios from 'axios';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faEdit, faTrash, faPlus } from '@fortawesome/free-solid-svg-icons';
 
-// Configure your backend API base URL here
-const API_BASE_URL = 'https://blog-sphere-399j.onrender.com'; // REPLACE WITH YOUR ACTUAL BACKEND URL
-
 const UserBlogsScreen = () => {
   const [blogs, setBlogs] = useState([]);
   const [loading, setLoading] = useState(true);
@@ -23,42 +20,13 @@ const UserBlogsScreen = () => {
           return;
         }
 
-        const config = { 
-          headers: { 
-            'x-auth-token': token,
-            'Content-Type': 'application/json'
-          } 
-        };
-
-        // First verify the token is valid
-        const userResponse = await axios.get(`${API_BASE_URL}/api/users/me`, config);
-        if (!userResponse.data._id) {
-          throw new Error('Invalid user session');
-        }
-
-        // Then fetch blogs
-        const blogsResponse = await axios.get(`${API_BASE_URL}/api/blogs`, config);
-        
-        // Filter blogs to only show those belonging to the current user
-        const userBlogs = blogsResponse.data.blogs.filter(
-          blog => blog.author._id === userResponse.data._id
-        );
-        
+        const config = { headers: { 'x-auth-token': token } };
+        const { data } = await axios.get('/api/blogs', config);
+        const userData = await axios.get('/api/users/me', config);
+        const userBlogs = data.blogs.filter(blog => blog.author._id === userData.data._id);
         setBlogs(userBlogs);
       } catch (err) {
-        console.error('Fetch error details:', {
-          message: err.message,
-          response: err.response?.data,
-          status: err.response?.status
-        });
-        
         setError(err.response?.data?.msg || 'Error fetching blogs');
-        
-        // Handle unauthorized errors
-        if (err.response?.status === 401) {
-          localStorage.removeItem('token');
-          navigate('/login');
-        }
       } finally {
         setLoading(false);
       }
@@ -73,23 +41,12 @@ const UserBlogsScreen = () => {
     try {
       setIsDeleting(blogId);
       const token = localStorage.getItem('token');
-      
-      await axios.delete(`${API_BASE_URL}/api/blogs/${blogId}`, {
-        headers: { 
-          'x-auth-token': token,
-          'Content-Type': 'application/json'
-        }
+      await axios.delete(`/api/blogs/${blogId}`, {
+        headers: { 'x-auth-token': token }
       });
-      
       setBlogs(blogs.filter(blog => blog._id !== blogId));
     } catch (err) {
-      console.error('Delete error:', err);
-      setError(err.response?.data?.msg || 'Failed to delete post. Please try again.');
-      
-      if (err.response?.status === 401) {
-        localStorage.removeItem('token');
-        navigate('/login');
-      }
+      setError('Failed to delete post. Please try again.');
     } finally {
       setIsDeleting(null);
     }
@@ -105,12 +62,6 @@ const UserBlogsScreen = () => {
     <div className="min-h-screen flex items-center justify-center">
       <div className="bg-red-100 border border-red-400 text-red-700 px-4 py-3 rounded max-w-md">
         {error}
-        <button 
-          onClick={() => window.location.reload()}
-          className="mt-2 text-blue-600 hover:text-blue-800"
-        >
-          Try Again
-        </button>
       </div>
     </div>
   );
