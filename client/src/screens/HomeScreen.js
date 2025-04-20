@@ -21,7 +21,7 @@ const HomeScreen = () => {
         setPages(data.totalPages);
         setTotal(data.totalBlogs);
       } catch (error) {
-        console.error('Error fetching blogs:', error);
+        console.error('Error fetching blogs:', error.response || error.message);
       }finally {
         setLoading(false);
       }
