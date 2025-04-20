@@ -15,7 +15,7 @@ const app = express();
 // Enhanced CORS configuration
 const allowedOrigins = [
   'http://localhost:3000', // local dev
-  process.env.FRONTEND_URL // set this in Render dashboard after frontend is deployed
+  'https://blog-sphere-1-lbvn.onrender.com' 
 ];
 app.use((req, res, next) => {
   const origin = req.headers.origin;

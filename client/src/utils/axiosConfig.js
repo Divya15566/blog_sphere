@@ -3,7 +3,7 @@ import axios from 'axios';
 const instance = axios.create({
   baseURL: process.env.NODE_ENV === 'development' 
     ? 'http://localhost:5000/api'
-    : 'https://blog-sphere-399j.onrender.com', // <-- Replace with your actual backend Render URL after deployment
+    : 'https://blog-sphere-399j.onrender.com/api', // <-- Replace with your actual backend Render URL after deployment
   timeout: 10000, // 10 second timeout
   withCredentials: true,
   headers: {
