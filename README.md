@@ -1,6 +1,6 @@
 # BlogSphere
 
-BlogSphere is a full-stack blogging platform featuring user authentication, blog creation, editing, and deletion, built with React for the frontend and Node.js/Express for the backend.
+BlogSphere is a full-stack blogging platform that allows users to create, edit, and delete blog posts. It features user authentication, responsive design, and a seamless user experience.
 
 ## Features
 - User registration and login
@@ -9,63 +9,72 @@ BlogSphere is a full-stack blogging platform featuring user authentication, blog
 - Responsive design with Tailwind CSS and Bootstrap
 
 ## Technologies Used
-- React
-- Node.js
-- Express.js
-- MongoDB
-- Mongoose
-- JWT (JSON Web Tokens)
-- bcryptjs
-- Tailwind CSS
-- Bootstrap
-- Axios
+- **Frontend**: React, Axios, Tailwind CSS, Bootstrap
+- **Backend**: Node.js, Express.js, MongoDB, Mongoose, JWT (JSON Web Tokens), bcryptjs
+
+## Prerequisites
+- Node.js (v18 or higher)
+- npm (comes with Node.js)
+- MongoDB database (local or Atlas)
 
 ## Getting Started
 
-### Prerequisites
-- Node.js (v18 or higher)
-- npm
-- MongoDB database (local or Atlas)
+### 1. Clone the repository
+```bash
+git clone <repo-url>
+cd blog-app
+```
 
-### Installation
-1. Clone the repository:
-   ```sh
-   git clone <repo-url>
-   cd blog_sphere
-   ```
-2. Install backend dependencies:
-   ```sh
-   cd server
-   npm install
-   ```
-3. Install frontend dependencies:
-   ```sh
-   cd ../client
-   npm install
-   ```
-4. Create a `.env` file in the `server` directory with the following variables:
-   ```env
-   MONGODB_URI=your_mongodb_connection_string
-   JWT_SECRET=your_jwt_secret
-   PORT=5000
-   ```
+### 2. Install dependencies
+#### Backend
+```bash
+cd server
+npm install
+```
+#### Frontend
+```bash
+cd ../client
+npm install
+```
 
-### Running Locally
-- Start the backend:
-  ```sh
-  cd server
-  npm start
-  ```
-- Start the frontend:
-  ```sh
-  cd ../client
-  npm start
-  ```
+### 3. Set up environment variables
+Create a `.env` file in the `server` directory with the following variables:
+```env
+MONGODB_URI=your_mongodb_connection_string
+JWT_SECRET=your_jwt_secret
+PORT=5000
+```
 
-## Deployment
-- Deploy the backend as a web service (e.g., Render, Heroku) and set environment variables.
-- Deploy the frontend as a static site (e.g., Render, Vercel) and configure the API base URL to point to the backend service.
-- Update CORS settings in the backend to allow requests from the frontend URL.
+### 4. Run the application
+#### Start the backend server
+```bash
+cd server
+npm start
+```
+The backend will run on [http://localhost:5000](http://localhost:5000).
+
+#### Start the frontend React app
+```bash
+cd ../client
+npm start
+```
+The frontend will run on [http://localhost:3000](http://localhost:3000).
+
+## API Endpoints
+### Authentication
+- `POST /api/auth/signup` - Register a new user
+- `POST /api/auth/login` - Login and get a token
+
+### Blogs
+- `GET /api/blogs` - Get all blogs with pagination
+- `GET /api/blogs/:id` - Get a single blog by ID
+- `POST /api/blogs` - Create a new blog (requires authentication)
+- `PUT /api/blogs/:id` - Update a blog (requires authentication and ownership)
+- `DELETE /api/blogs/:id` - Delete a blog (requires authentication and ownership)
+
+### Users
+- `GET /api/users/me` - Get the current logged-in user's details
+
 
 
 
