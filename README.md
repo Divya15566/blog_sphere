@@ -21,7 +21,7 @@ BlogSphere is a full-stack blogging platform that allows users to create, edit, 
 
 ### 1. Clone the repository
 ```bash
-git clone <repo-url>
+git clone https://github.com/Divya15566/blog_sphere.git
 cd blog-app
 ```
 
